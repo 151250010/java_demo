@@ -51,7 +51,7 @@ public class HttpJsonClient {
                         }
                     });
 
-            ChannelFuture future = bootstrap.connect(InetAddress.getLocalHost(),port).sync();
+            ChannelFuture future = bootstrap.connect("127.0.0.1",port).sync();
 
             future.channel().closeFuture().sync();
         }

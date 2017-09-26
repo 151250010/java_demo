@@ -8,12 +8,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpRequestEncoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import netty.httpdemo.json.entity.Order;
 import netty.httpdemo.json.utis.HttpJsonRequestDecoder;
 import netty.httpdemo.json.utis.HttpJsonResponseEncoder;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 public class HttpJsonServer {
@@ -27,7 +29,7 @@ public class HttpJsonServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast("http-decoder", new HttpRequestEncoder()); // http请求解码
+                            ch.pipeline().addLast("http-decoder", new HttpRequestDecoder()); // http请求解码
                             ch.pipeline().addLast("http-aggregator", new HttpObjectAggregator(65536));
 
                             ch.pipeline().addLast("json-decoder", new HttpJsonRequestDecoder(Order.class));
@@ -39,8 +41,8 @@ public class HttpJsonServer {
                         }
                     });
 
-            ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(port));
-            System.out.println("Http 订购服务器启动，网址是： " + "http://localhost:" + port);
+            ChannelFuture channelFuture = serverBootstrap.bind("127.0.0.1", port);
+            System.out.println("Http 订购服务器启动，网址是： " + "127.0.0.1" + ':' + port);
 
             channelFuture.channel().closeFuture().sync();
         }

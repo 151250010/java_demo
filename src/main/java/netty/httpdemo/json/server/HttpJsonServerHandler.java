@@ -7,8 +7,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import netty.httpdemo.json.entity.Order;
 import netty.httpdemo.json.entity.Shipping;
 import netty.httpdemo.json.utis.HttpJsonRequest;
@@ -16,19 +14,18 @@ import netty.httpdemo.json.utis.HttpJsonResponse;
 
 public class HttpJsonServerHandler extends SimpleChannelInboundHandler<HttpJsonRequest> {
 
-    protected void channelRead0(final ChannelHandlerContext ctx, HttpJsonRequest msg) throws Exception {
-        HttpRequest request = msg.getRequest();
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, HttpJsonRequest msg) throws Exception {
+
         Order order = (Order) msg.getObject();
         System.out.println("Http Server receive request: " + order);
-
         doBusiness(order); // 进行业务逻辑处理
 
         ChannelFuture future = ctx.writeAndFlush(new HttpJsonResponse(null, order));
 
-        if (!HttpUtil.isKeepAlive(request)) {
+        if (!HttpUtil.isKeepAlive(msg.getRequest())) {
             future.addListener(future1 -> ctx.close());
         }
-
     }
 
     private void doBusiness(Order order) {
