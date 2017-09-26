@@ -20,7 +20,7 @@ public class HttpJsonRequestEncoder extends AbstractHttpJsonEncoder<HttpJsonRequ
         FullHttpRequest request = msg.getRequest();
         if (request == null) {
             // 如果业务侧 没有对请求头部进行自定义，使用默认的请求头
-            request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/do", body);
+            request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, "/do", body);
             HttpHeaders httpHeaders = request.headers();
             httpHeaders.set(HttpHeaders.Names.HOST, InetAddress.getLocalHost().getHostAddress());
             httpHeaders.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
