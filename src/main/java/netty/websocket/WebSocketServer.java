@@ -27,11 +27,17 @@ public class WebSocketServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
 
-                            ChannelPipeline pipeline = ch.pipeline();
+                            /*ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast("http-codec",new HttpServerCodec());
                             pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
                             ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
-                            pipeline.addLast("WebSocketHandler", new WebSocketServerHandler());
+                            pipeline.addLast("WebSocketHandler", new WebSocketServerHandler());*/
+
+                            ch.pipeline()
+                                    .addLast(new HttpServerCodec())
+                                    .addLast(new HttpObjectAggregator(65536))
+                                    .addLast(new ChunkedWriteHandler())
+                                    .addLast(new WebSocketServerHandler());
                         }
                     });
 
