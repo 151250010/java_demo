@@ -13,6 +13,7 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
 
     private volatile ScheduledFuture<?> heartBeat;
 
+    @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object message) throws Exception{
         NettyMessage nettyMessage = (NettyMessage) message;
         if (nettyMessage.getHeader() != null && nettyMessage.getHeader().getType() == MessageType.LOGIN_RESP.value()) {

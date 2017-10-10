@@ -26,6 +26,8 @@ public class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
             throw new Exception("The encode message is null");
         }
 
+        System.out.println("Try to encode the message: " + msg.getBody().toString());
+
         ByteBuf sendBuf = Unpooled.buffer();
         Header header = msg.getHeader();
         sendBuf.writeInt(header.getCrcCode()); // int crcCode

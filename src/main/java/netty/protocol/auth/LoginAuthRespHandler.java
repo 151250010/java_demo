@@ -22,7 +22,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
         if (nettyMessage.getHeader() != null && nettyMessage.getHeader().getType() == MessageType.LOGIN_REQ.value()) {
             // 握手请求
             String nodeIndex = channelHandlerContext.channel().remoteAddress().toString();
-            NettyMessage loginResp = null;
+            NettyMessage loginResp;
             if (nodeCheck.containsKey(nodeIndex)) {
                 loginResp = buildResponse((byte) -1); // 已经登录的话直接返回-1
             }else {

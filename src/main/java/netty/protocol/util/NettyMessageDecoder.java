@@ -3,6 +3,7 @@ package netty.protocol.util;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.util.CharsetUtil;
 import netty.protocol.entity.Header;
 import netty.protocol.entity.NettyMessage;
 
@@ -14,12 +15,15 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
     private MarshallingDecoder decoder;
 
     public NettyMessageDecoder(int maxFrameLength,int lengthFieldOffset,int lengthFiledLength) throws Exception {
-        super(maxFrameLength, lengthFieldOffset, lengthFiledLength);
+        super(maxFrameLength, lengthFieldOffset, lengthFiledLength, -8, 0);
         decoder = new MarshallingDecoder();
     }
 
     @Override
     protected Object decode(ChannelHandlerContext channelHandlerContext, ByteBuf in) throws Exception {
+
+        System.out.println("Begin to decode : " + in.toString(CharsetUtil.UTF_8));
+
         ByteBuf frame = (ByteBuf) super.decode(channelHandlerContext, in);
         if (frame == null) {
             return null;

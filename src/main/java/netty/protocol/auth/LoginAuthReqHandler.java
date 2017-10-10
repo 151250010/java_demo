@@ -37,6 +37,4 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
         nettyMessage.setHeader(header);
         return nettyMessage;
     }
-
-
 }
