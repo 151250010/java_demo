@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.DefaultPromise;
 
 public class TimeClient {
 
@@ -40,5 +41,6 @@ public class TimeClient {
 
         int port = 8080;
         new TimeClient().connect(port, "127.0.0.1"); // connect
+
     }
 }
